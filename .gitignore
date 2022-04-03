@@ -1,0 +1,4 @@
+node_modules/
+google-ngram-small-en
+local.db
+remote.db

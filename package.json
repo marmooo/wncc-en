@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "sql.js-httpvfs": "^0.8.11"
+  }
+}
