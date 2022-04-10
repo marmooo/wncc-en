@@ -63,7 +63,7 @@ function copyToClipboard(text) {
   input.value = text;
   iosCopyToClipboard(input);
   document.body.removeChild(input);
-  alert("クリップボードにコピーしました。");
+  alert("Copied to clipboard.");
 }
 
 async function searchCollocations(lemma) {
