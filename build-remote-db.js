@@ -1,5 +1,5 @@
 import { readLines } from "https://deno.land/std/io/mod.ts";
-import { DB } from "https://deno.land/x/sqlite/mod.ts";
+import { DB } from "./deps.ts";
 
 const localDB = new DB("local.db");
 const getWords = localDB.prepareQuery(`
