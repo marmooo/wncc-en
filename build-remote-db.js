@@ -10,6 +10,8 @@ const getCollocations = localDB.prepareQuery(`
 `);
 
 const remoteDB = new DB("remote.db");
+remoteDB.query("pragma synchronouse=OFF");
+remoteDB.query("pragma journal_mode=WAL");
 remoteDB.query(`
   CREATE TABLE IF NOT EXISTS collocations (
     lemma TEXT,

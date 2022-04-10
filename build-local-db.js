@@ -3,6 +3,8 @@ import { DB } from from "./deps.ts";
 
 const threshold = 999;
 const db = new DB("local.db");
+dB.query("pragma synchronouse=OFF");
+dB.query("pragma journal_mode=WAL");
 db.query(`
   CREATE TABLE IF NOT EXISTS words (
     wordid INTEGER PRIMARY KEY AUTOINCREMENT,
