@@ -552,7 +552,7 @@ async function searchCollocations(lemma) {
             const button = document.createElement("button");
             button.className = "btn btn-outline-secondary m-1";
             button.textContent = word;
-            button.onclick = function() {
+            button.onclick = ()=>{
                 copyToClipboard(button.textContent);
             };
             obj.appendChild(button);
