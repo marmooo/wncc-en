@@ -101,7 +101,6 @@ async function loadDBWorker() {
     "/wncc-en/sql.js-httpvfs/sqlite.worker.js",
     "/wncc-en/sql.js-httpvfs/sql-wasm.wasm",
   );
-  searchCollocations("run");
 }
 
 let dbWorker;
