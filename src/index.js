@@ -108,9 +108,7 @@ loadConfig();
 loadDBWorker();
 
 document.addEventListener("keydown", function (event) {
-  if (event.key == "Enter") {
-    search();
-  }
+  if (event.key == "Enter") search();
 }, false);
 document.getElementById("toggleDarkMode").onclick = toggleDarkMode;
 document.getElementById("search").onclick = search;

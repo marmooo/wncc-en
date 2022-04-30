@@ -41,4 +41,4 @@ async function searchCollocations(lemma){const loading=document.getElementById("
 if(row[0]){const words=JSON.parse(row[0].words);for(const word of words){const button=document.createElement("button");button.className="btn btn-outline-secondary m-1";button.textContent=word;button.onclick=()=>{copyToClipboard(button.textContent);};obj.appendChild(button);}}
 loading.classList.add("d-none");}
 async function loadDBWorker(){const config={from:"jsonconfig",configUrl:"/wncc-en/db/config.json"};dbWorker=await createDbWorker([config],"/wncc-en/sql.js-httpvfs/sqlite.worker.js","/wncc-en/sql.js-httpvfs/sql-wasm.wasm");}
-let dbWorker;loadConfig();loadDBWorker();document.addEventListener("keydown",function(event){if(event.key=="Enter"){search();}},false);document.getElementById("toggleDarkMode").onclick=toggleDarkMode;document.getElementById("search").onclick=search;
+let dbWorker;loadConfig();loadDBWorker();document.addEventListener("keydown",function(event){if(event.key=="Enter")search();},false);document.getElementById("toggleDarkMode").onclick=toggleDarkMode;document.getElementById("search").onclick=search;
