@@ -1,11 +1,11 @@
-var CACHE_NAME = "2022-04-30 10:15";
+var CACHE_NAME = "2022-07-24 00:46";
 var urlsToCache = [
   "/siminym-en/",
   "/siminym-en/index.js",
   "/siminym-en/sql.js-httpvfs/sql-wasm.wasm",
   "/siminym-en/sql.js-httpvfs/sqlite.worker.js",
   "/siminym-en/favicon/favicon.svg",
-  "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
+  "https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css",
 ];
 
 self.addEventListener("install", function (event) {
