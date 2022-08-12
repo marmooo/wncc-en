@@ -22,47 +22,8 @@ function search() {
   searchCollocations(word);
 }
 
-function iosCopyToClipboard(el) {
-  // resolve the element
-  el = (typeof el === "string") ? document.querySelector(el) : el;
-
-  // handle iOS as a special case
-  if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
-    // save current contentEditable/readOnly status
-    const editable = el.contentEditable;
-    const readOnly = el.readOnly;
-
-    // convert to editable with readonly to stop iOS keyboard opening
-    el.contentEditable = true;
-    el.readOnly = true;
-
-    // create a selectable range
-    const range = document.createRange();
-    range.selectNodeContents(el);
-
-    // select the range
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
-    el.setSelectionRange(0, 999999);
-
-    // restore contentEditable/readOnly to original state
-    el.contentEditable = editable;
-    el.readOnly = readOnly;
-  } else {
-    el.select();
-  }
-
-  // execute copy command
-  document.execCommand("copy");
-}
-
-function copyToClipboard(text) {
-  const input = document.createElement("textarea");
-  document.body.appendChild(input);
-  input.value = text;
-  iosCopyToClipboard(input);
-  document.body.removeChild(input);
+async function copyToClipboard(text) {
+  await navigator.clipboard.writeText(text);
   alert("Copied to clipboard.");
 }
 
