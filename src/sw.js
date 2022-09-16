@@ -1,4 +1,4 @@
-var CACHE_NAME = "2022-09-11 08:49";
+var CACHE_NAME = "2022-09-16 09:15";
 var urlsToCache = [
   "/siminym-en/",
   "/siminym-en/index.js",
