@@ -32,69 +32,75 @@ const insertCollocation = db.prepare(`
 async function parseLemma() {
   const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     .split("");
-  const result = [];
   for (const alphabet of alphabets) {
+    const result = [];
     const fileReader = await Deno.open(
       `google-ngram-small-en/dist/1gram/${alphabet}.csv`,
     );
     for await (const line of readLines(fileReader)) {
       if (!line) continue;
-      const arr = line.split(",");
-      const lemma = arr[0];
-      const count = parseInt(arr[1]);
+      const pos = line.lastIndexOf(",");
+      const lemma = line.slice(0, pos);
+      if (!/[A-Za-z]+$/.test(lemma)) continue;
+      const count = parseInt(line.slice(pos + 1));
       if (count > threshold) {
         result.push([lemma, count]);
       }
     }
+    fileReader.close();
+    db.transaction((result) => {
+      result.forEach((row) => {
+        insertLemma.run(...row);
+      });
+    })(result);
     console.log(alphabet);
   }
-  db.transaction((result) => {
-    result.forEach((row) => {
-      insertLemma.run(...row);
+  console.log("parse 1gram");
+}
+
+async function parseAlphabet(alphabet, n) {
+  const result = [];
+  const fileReader = await Deno.open(
+    `google-ngram-small-en/dist/${n}gram/${alphabet}.csv`,
+  );
+  for await (const line of readLines(fileReader)) {
+    if (!line) continue;
+    const pos = line.lastIndexOf(",");
+    const sentence = line.slice(0, pos);
+    if (!/^[A-Za-z ]+$/.test(sentence)) continue;
+    const lemmas = sentence.split(" ");
+    if (lemmas.length != n) continue;
+    const count = parseInt(line.slice(pos + 1));
+    if (count <= threshold) continue;
+    lemmas.forEach((lemma) => {
+      const row = getWordId.value(lemma);
+      if (row) {
+        const wordId = row[0];
+        if (wordId) {
+          result.push([wordId, sentence, count]);
+        } else {
+          console.log("error: " + lemma);
+        }
+      }
+    });
+  }
+  fileReader.close();
+  db.transaction((data) => {
+    data.forEach((row) => {
+      insertCollocation.run(row);
     });
   })(result);
-  console.log("parse 1gram");
+  console.log(alphabet);
 }
 
 async function parseNgram() {
   const alphabets = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     .split("");
-  for (let i = 2; i <= 3; i++) {
-    const result = [];
+  for (let n = 2; n <= 3; n++) {
     for (const alphabet of alphabets) {
-      const fileReader = await Deno.open(
-        `google-ngram-small-en/dist/${i}gram/${alphabet}.csv`,
-      );
-      for await (const line of readLines(fileReader)) {
-        if (!line) continue;
-        const arr = line.split(",");
-        const lemmas = arr[0].split(" ");
-        const count = parseInt(arr[1]);
-        const sentence = lemmas.join(" ");
-        lemmas.forEach((lemma) => {
-          if (lemma.includes("_")) return;
-          if (sentence.includes("_")) return;
-          const row = getWordId.value(lemma);
-          if (row) {
-            const wordId = row[0];
-            if (wordId) {
-              if (count > threshold) {
-                result.push([wordId, sentence, count]);
-              }
-            } else {
-              console.log("error: " + lemma);
-            }
-          }
-        });
-      }
-      console.log(alphabet);
+      await parseAlphabet(alphabet, n);
     }
-    db.transaction((data) => {
-      data.forEach((row) => {
-        insertCollocation.run(row);
-      });
-    })(result);
-    console.log(`parse ${i}gram`);
+    console.log(`parse ${n}gram`);
   }
 }
 
