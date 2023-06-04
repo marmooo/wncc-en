@@ -28,6 +28,7 @@ async function copyToClipboard(text) {
 }
 
 async function searchCollocations(lemma) {
+  if (!dbWorker) return;
   const loading = document.getElementById("loading");
   loading.classList.remove("d-none");
   const obj = document.getElementById("collocations");
