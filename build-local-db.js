@@ -1,5 +1,5 @@
 import { readLines } from "https://deno.land/std/io/mod.ts";
-import { Database } from "./deps.ts";
+import { Database } from "x/sqlite3";
 
 const threshold = 999;
 const db = new Database("local.db");

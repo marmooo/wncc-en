@@ -1,4 +1,4 @@
-import { Database } from "./deps.ts";
+import { Database } from "x/sqlite3";
 
 const localDB = new Database("local.db");
 const getWords = localDB.prepare(`
