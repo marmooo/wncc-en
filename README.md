@@ -14,8 +14,8 @@ can also be used as example sentences dictionary.
 ## Build
 
 ```
-deno run -A --unstable build-local-db.js
-deno run -A --unstable build-remote-db.js
+deno run -A --unstable-ffi build-local-db.js
+deno run -A --unstable-ffi build-remote-db.js
 bash optimize.sh
 bash build.sh
 bash create_db.sh remote.db docs/db
