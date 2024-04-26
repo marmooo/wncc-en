@@ -17,8 +17,8 @@ can also be used as example sentences dictionary.
 deno run -A --unstable-ffi build-local-db.js
 deno run -A --unstable-ffi build-remote-db.js
 bash optimize.sh
-bash build.sh
 bash create_db.sh remote.db docs/db
+bash build.sh
 ```
 
 ## Related projects
