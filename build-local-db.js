@@ -1,5 +1,11 @@
-import { readLines } from "https://deno.land/std/io/mod.ts";
+import { TextLineStream } from "@std/streams";
 import { Database } from "x/sqlite3";
+
+function getLineStream(file) {
+  return file.readable
+    .pipeThrough(new TextDecoderStream())
+    .pipeThrough(new TextLineStream());
+}
 
 const threshold = 999;
 const db = new Database("local.db");
@@ -34,11 +40,10 @@ async function parseLemma() {
     .split("");
   for (const alphabet of alphabets) {
     const result = [];
-    const fileReader = await Deno.open(
+    const file = await Deno.open(
       `google-ngram-small-en/dist/1gram/${alphabet}.csv`,
     );
-    for await (const line of readLines(fileReader)) {
-      if (!line) continue;
+    for await (const line of getLineStream(file)) {
       const pos = line.lastIndexOf(",");
       const lemma = line.slice(0, pos);
       if (!/[A-Za-z]+$/.test(lemma)) continue;
@@ -60,11 +65,10 @@ async function parseLemma() {
 
 async function parseAlphabet(alphabet, n) {
   const result = [];
-  const fileReader = await Deno.open(
+  const file = await Deno.open(
     `google-ngram-small-en/dist/${n}gram/${alphabet}.csv`,
   );
-  for await (const line of readLines(fileReader)) {
-    if (!line) continue;
+  for await (const line of getLineStream(file)) {
     const pos = line.lastIndexOf(",");
     const sentence = line.slice(0, pos);
     if (!/^[A-Za-z ]+$/.test(sentence)) continue;
