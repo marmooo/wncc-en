@@ -1,5 +1,5 @@
 import { TextLineStream } from "@std/streams";
-import { Database } from "x/sqlite3";
+import { Database } from "@db/sqlite";
 
 function getLineStream(file) {
   return file.readable
@@ -52,7 +52,6 @@ async function parseLemma() {
         result.push([lemma, count]);
       }
     }
-    fileReader.close();
     db.transaction((result) => {
       result.forEach((row) => {
         insertLemma.run(...row);
@@ -88,7 +87,6 @@ async function parseAlphabet(alphabet, n) {
       }
     });
   }
-  fileReader.close();
   db.transaction((data) => {
     data.forEach((row) => {
       insertCollocation.run(row);
