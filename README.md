@@ -7,9 +7,9 @@ can also be used as example sentences dictionary.
 
 ## Installation
 
-- install [google-ngram-small-en](http://github.com/marmooo/google-ngram-small-en)
+- install
+  [google-ngram-small-en](http://github.com/marmooo/google-ngram-small-en)
   licensed under the CC BY 4.0
-- `npm install`
 
 ## Build
 
@@ -27,4 +27,4 @@ bash build.sh
 
 ## License
 
-CC BY 4.0
+CC-BY-4.0
