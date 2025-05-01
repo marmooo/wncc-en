@@ -1,4 +1,3 @@
-import { escapeSql } from "https://deno.land/x/escape/mod.ts";
 import { createDbWorker } from "../node_modules/sql.js-httpvfs/dist/index.js";
 
 function loadConfig() {
@@ -32,14 +31,12 @@ async function searchCollocations(lemma) {
   const loading = document.getElementById("loading");
   loading.classList.remove("d-none");
   const obj = document.getElementById("collocations");
-  const row = await dbWorker.db.query(
-    `SELECT words FROM collocations WHERE lemma="${escapeSql(lemma)}"`,
-  );
+  const row = await dbWorker.searchLemma.getAsObject([lemma]);
   while (obj.firstChild) {
     obj.removeChild(obj.firstChild);
   }
-  if (row[0]) {
-    const words = JSON.parse(row[0].words);
+  if (row.words) {
+    const words = JSON.parse(row.words);
     for (const word of words) {
       const button = document.createElement("button");
       button.className = "btn btn-outline-secondary m-1";
@@ -65,6 +62,9 @@ async function loadDBWorker() {
     [config],
     "/wncc-en/sql.js-httpvfs/sqlite.worker.js",
     "/wncc-en/sql.js-httpvfs/sql-wasm.wasm",
+  );
+  dbWorker.searchLemma = await dbWorker.db.prepare(
+    `SELECT words FROM collocations WHERE lemma=?`,
   );
   loading.classList.add("d-none");
 }
