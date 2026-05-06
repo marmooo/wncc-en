@@ -12,6 +12,14 @@
     <meta property="og:url" content="https://marmooo.github.io/wncc-en/">
     <meta property="og:image" content="https://marmooo.github.io/wncc-en/favicon/apple-touch-icon.png">
     <meta name="twitter:card" content="summary">
+    <script>
+      (function() {
+        const saved = localStorage.getItem("darkMode");
+        const prefersDark = globalThis.matchMedia("(prefers-color-scheme: dark)").matches;
+        const theme = saved || (prefersDark ? "dark" : "light");
+        document.documentElement.setAttribute("data-bs-theme", theme);
+      })();
+    </script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F2179JXDYY"></script>
     <script>
@@ -21,11 +29,7 @@
       gtag('config', 'G-F2179JXDYY');
     </script>
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/wncc-en/sw.js');
-        });
-      }
+      navigator.serviceWorker.register("/wncc-en/sw.js");
     </script>
     <link rel="icon" type="image/png" href="/wncc-en/favicon/favicon.png">
     <link rel="icon" type="image/svg+xml" href="/wncc-en/favicon/favicon.svg">

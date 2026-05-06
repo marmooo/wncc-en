@@ -1,6 +1,5 @@
-const CACHE_NAME = "2025-09-09 00:19";
+const CACHE_NAME = "2026-05-07 00:00";
 const urlsToCache = [
-  "/siminym-en/",
   "/siminym-en/index.js",
   "/siminym-en/sql.js-httpvfs/sql-wasm.wasm",
   "/siminym-en/sql.js-httpvfs/sqlite.worker.js",
